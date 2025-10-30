@@ -1,5 +1,5 @@
 {
-  "name": "@ze/ze-feedback",
+  "name": "@ze-org/ze-feedback",
   "version": "0.1.0",
   "description": "Lightweight, type-safe feedback widget",
   "main": "./dist/index.js",
