@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { ReactNode } from "react";
 
 export const feedbackPayloadSchema = z.object({
   feedback: z.string().min(1).max(2000),
@@ -17,4 +18,8 @@ export interface FeedbackWidgetProps {
   onSuccess?: () => void;
   onError?: (err: Error) => void;
   theme?: "light" | "dark";
+  renderToast?: (info: {
+    type: "success" | "error";
+    message: string;
+  }) => ReactNode;
 }

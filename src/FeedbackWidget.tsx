@@ -12,6 +12,7 @@ export const FeedbackWidget = ({
   onSuccess,
   onError,
   theme = "light",
+  renderToast,
 }: FeedbackWidgetProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -26,9 +27,11 @@ export const FeedbackWidget = ({
   const bgColor = isDark ? "bg-gray-900" : "bg-white";
   const textColor = isDark ? "text-gray-100" : "text-gray-900";
   const borderColor = isDark ? "border-gray-700" : "border-gray-300";
+  // Primary button color: dark gray on light theme, white on dark theme
   const buttonBg = isDark
-    ? "bg-blue-600 hover:bg-blue-700"
-    : "bg-blue-500 hover:bg-blue-600";
+    ? "bg-white hover:bg-gray-100"
+    : "bg-gray-900 hover:bg-gray-800";
+  const buttonText = isDark ? "text-gray-900" : "text-white";
   const overlayBg = isDark ? "bg-black/70" : "bg-black/50";
 
   const handleSubmit = async (e: FormEvent) => {
@@ -89,7 +92,8 @@ export const FeedbackWidget = ({
             className={clsx(
               "z-50 w-14 h-14 rounded-full shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2",
               buttonBg,
-              "flex items-center justify-center text-white hover:scale-110"
+              "flex items-center justify-center hover:scale-110",
+              buttonText
             )}
             aria-label="Open feedback dialog"
           >
@@ -181,8 +185,9 @@ export const FeedbackWidget = ({
                     type="submit"
                     disabled={isSubmitting || !feedback.trim()}
                     className={clsx(
-                      "px-4 py-2 rounded-md text-sm font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+                      "px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
                       buttonBg,
+                      buttonText,
                       "disabled:opacity-50 disabled:cursor-not-allowed"
                     )}
                   >
@@ -195,23 +200,26 @@ export const FeedbackWidget = ({
         </Dialog.Portal>
       </Dialog.Root>
 
-      {toast && (
-        <div
-          className={clsx(
-            "fixed top-10 right-6 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium transition-all",
-            toast.type === "success"
-              ? isDark
-                ? "bg-green-800 text-green-100"
-                : "bg-green-500 text-white"
-              : isDark
-              ? "bg-red-800 text-red-100"
-              : "bg-red-500 text-white"
-          )}
-          role="alert"
-        >
-          {toast.message}
-        </div>
-      )}
+      {toast &&
+        (renderToast ? (
+          <>{renderToast(toast)}</>
+        ) : (
+          <div
+            className={clsx(
+              "fixed top-10 right-6 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium transition-all",
+              toast.type === "success"
+                ? isDark
+                  ? "bg-green-800 text-green-100"
+                  : "bg-green-500 text-white"
+                : isDark
+                ? "bg-red-800 text-red-100"
+                : "bg-red-500 text-white"
+            )}
+            role="alert"
+          >
+            {toast.message}
+          </div>
+        ))}
     </>
   );
 };
