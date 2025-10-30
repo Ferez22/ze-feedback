@@ -14,12 +14,26 @@
     "./styles.css": "./dist/styles.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "package.json",
+    "README.md"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "feedback",
+    "widget",
+    "react",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": "Ze",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ferez22/ze-feedback"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
