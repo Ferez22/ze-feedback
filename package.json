@@ -21,7 +21,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "feedback",
