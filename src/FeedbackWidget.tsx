@@ -62,13 +62,12 @@ export const FeedbackWidget = ({
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+      // Close immediately on success and show a transient toast
+      setIsOpen(false);
+      setFeedback("");
+      setRating(null);
       setToast({ type: "success", message: "Thank you for your feedback!" });
-      setTimeout(() => {
-        setToast(null);
-        setIsOpen(false);
-        setFeedback("");
-        setRating(null);
-      }, 2000);
+      setTimeout(() => setToast(null), 2000);
       onSuccess?.();
     } catch (err) {
       const e2 =
@@ -102,89 +101,96 @@ export const FeedbackWidget = ({
           <Dialog.Overlay
             className={clsx("fixed inset-0 z-50 ze-dialog-overlay", overlayBg)}
           />
+          {/* Use a full-screen grid container to center the panel without translate hacks */}
           <Dialog.Content
             className={clsx(
-              "fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg p-6 shadow-xl focus:outline-none ze-dialog-content",
-              bgColor,
-              textColor,
-              "border",
-              borderColor
+              "fixed inset-0 z-50 grid place-items-center p-4 focus:outline-none",
+              textColor
             )}
           >
-            <Dialog.Title className="text-xl font-semibold mb-4">
-              Send Feedback
-            </Dialog.Title>
-            <Dialog.Description
+            <div
               className={clsx(
-                "text-sm mb-4",
-                isDark ? "text-gray-400" : "text-gray-600"
+                "w-full max-w-md rounded-lg p-6 shadow-xl ze-dialog-content",
+                bgColor,
+                "border",
+                borderColor
               )}
             >
-              We'd love to hear your thoughts! Share your feedback and rating
-              below.
-            </Dialog.Description>
+              <Dialog.Title className="text-xl font-semibold mb-4">
+                Send Feedback
+              </Dialog.Title>
+              <Dialog.Description
+                className={clsx(
+                  "text-sm mb-4",
+                  isDark ? "text-gray-400" : "text-gray-600"
+                )}
+              >
+                We'd love to hear your thoughts! Share your feedback and rating
+                below.
+              </Dialog.Description>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label
-                  htmlFor="feedback-input"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Your Feedback
-                </label>
-                <textarea
-                  id="feedback-input"
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  placeholder="Tell us what you think..."
-                  className={clsx(
-                    "w-full h-32 px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none",
-                    isDark
-                      ? "bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-500"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                  )}
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Rating (optional)
-                </label>
-                <StarRating
-                  rating={rating}
-                  onRatingChange={setRating}
-                  theme={theme}
-                />
-              </div>
-
-              <div className="flex justify-end gap-3 pt-2">
-                <Dialog.Close asChild>
-                  <button
-                    type="button"
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="feedback-input"
+                    className="block text-sm font-medium mb-2"
+                  >
+                    Your Feedback
+                  </label>
+                  <textarea
+                    id="feedback-input"
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    placeholder="Tell us what you think..."
                     className={clsx(
-                      "px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2",
+                      "w-full h-32 px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none",
                       isDark
-                        ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                        ? "bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
+                    )}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Rating (optional)
+                  </label>
+                  <StarRating
+                    rating={rating}
+                    onRatingChange={setRating}
+                    theme={theme}
+                  />
+                </div>
+
+                <div className="flex justify-end gap-3 pt-2">
+                  <Dialog.Close asChild>
+                    <button
+                      type="button"
+                      className={clsx(
+                        "px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2",
+                        isDark
+                          ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      )}
+                    >
+                      Cancel
+                    </button>
+                  </Dialog.Close>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !feedback.trim()}
+                    className={clsx(
+                      "px-4 py-2 rounded-md text-sm font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+                      buttonBg,
+                      "disabled:opacity-50 disabled:cursor-not-allowed"
                     )}
                   >
-                    Cancel
+                    {isSubmitting ? "Sending..." : "Submit"}
                   </button>
-                </Dialog.Close>
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !feedback.trim()}
-                  className={clsx(
-                    "px-4 py-2 rounded-md text-sm font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                    buttonBg,
-                    "disabled:opacity-50 disabled:cursor-not-allowed"
-                  )}
-                >
-                  {isSubmitting ? "Sending..." : "Submit"}
-                </button>
-              </div>
-            </form>
+                </div>
+              </form>
+            </div>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>

@@ -20,21 +20,21 @@
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 @keyframes slideOut {
   from {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
+    transform: scale(0.96);
   }
 }
 
@@ -46,9 +46,8 @@
   animation: fadeOut 150ms ease-in;
 }
 
-/* Ensure content has a stable centered transform at all times to avoid initial jump */
+/* Panel animations only (container is grid-centered) */
 .ze-dialog-content {
-  transform: translate(-50%, -50%) scale(1);
   will-change: transform, opacity;
 }
 .ze-dialog-content[data-state="open"] {
