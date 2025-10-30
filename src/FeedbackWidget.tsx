@@ -13,6 +13,7 @@ export const FeedbackWidget = ({
   onError,
   theme = "light",
   renderToast,
+  buttonVariant = "standAlone",
 }: FeedbackWidgetProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -90,10 +91,12 @@ export const FeedbackWidget = ({
           <button
             type="button"
             className={clsx(
-              "z-50 w-14 h-14 rounded-full shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2",
-              buttonBg,
+              buttonVariant === "standAlone"
+                ? "z-50 w-14 h-14 rounded-full shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2"
+                : "focus:outline-none",
+              buttonVariant === "standAlone" && buttonBg,
               "flex items-center justify-center hover:scale-110",
-              buttonText
+              buttonVariant === "standAlone" && buttonText
             )}
             aria-label="Open feedback dialog"
           >

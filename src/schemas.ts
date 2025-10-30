@@ -22,4 +22,5 @@ export interface FeedbackWidgetProps {
     type: "success" | "error";
     message: string;
   }) => ReactNode;
+  buttonVariant?: "standAlone" | "simple";
 }
