@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { ReactNode } from "react";
+import type { ZodTypeAny } from "zod";
 
 export const feedbackPayloadSchema = z.object({
   feedback: z.string().min(1).max(2000),
@@ -12,7 +13,7 @@ export const feedbackPayloadSchema = z.object({
 export type FeedbackPayload = z.infer<typeof feedbackPayloadSchema>;
 
 export interface FeedbackWidgetProps {
-  apiUrl: string;
+  apiUrl?: string; // optional if onSubmit provided
   userId?: string;
   metadata?: Record<string, any>;
   onSuccess?: () => void;
@@ -25,4 +26,8 @@ export interface FeedbackWidgetProps {
   buttonVariant?: "standAlone" | "simple";
   /** Optional custom icon for the trigger button (primarily for simple variant) */
   buttonIcon?: ReactNode;
+  /** Custom submit handler. If provided, built-in POST will be skipped. */
+  onSubmit?: (data: FeedbackPayload) => Promise<void> | void;
+  /** Optional schema to override validation. Must be compatible with FeedbackPayload. */
+  validateWith?: ZodTypeAny;
 }

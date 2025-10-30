@@ -15,6 +15,8 @@ export const FeedbackWidget = ({
   renderToast,
   buttonVariant = "standAlone",
   buttonIcon,
+  onSubmit,
+  validateWith,
 }: FeedbackWidgetProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -49,7 +51,8 @@ export const FeedbackWidget = ({
       createdAt: new Date().toISOString(),
     };
 
-    const validation = feedbackPayloadSchema.safeParse(payload);
+    const schema = validateWith ?? feedbackPayloadSchema;
+    const validation = schema.safeParse(payload);
     if (!validation.success) {
       const msg =
         validation.error.errors[0]?.message || "Invalid feedback data";
@@ -61,12 +64,18 @@ export const FeedbackWidget = ({
 
     setIsSubmitting(true);
     try {
-      const res = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(validation.data),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (onSubmit) {
+        await onSubmit(validation.data);
+      } else {
+        if (!apiUrl)
+          throw new Error("apiUrl is required when onSubmit is not provided");
+        const res = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(validation.data),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      }
 
       // Close immediately on success and show a transient toast
       setIsOpen(false);
