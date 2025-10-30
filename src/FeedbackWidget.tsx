@@ -3,6 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { StarRating } from "./StarRating";
 import { feedbackPayloadSchema, type FeedbackWidgetProps } from "./schemas";
 import clsx from "clsx";
+import { MessageCircle } from "lucide-react";
 
 export const FeedbackWidget = ({
   apiUrl,
@@ -87,21 +88,23 @@ export const FeedbackWidget = ({
           <button
             type="button"
             className={clsx(
-              "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2",
+              "z-50 w-14 h-14 rounded-full shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2",
               buttonBg,
-              "flex items-center justify-center text-white text-2xl hover:scale-110"
+              "flex items-center justify-center text-white hover:scale-110"
             )}
             aria-label="Open feedback dialog"
           >
-            💬
+            <MessageCircle aria-hidden className="w-6 h-6" />
           </button>
         </Dialog.Trigger>
 
         <Dialog.Portal>
-          <Dialog.Overlay className={clsx("fixed inset-0 z-50", overlayBg)} />
+          <Dialog.Overlay
+            className={clsx("fixed inset-0 z-50 ze-dialog-overlay", overlayBg)}
+          />
           <Dialog.Content
             className={clsx(
-              "fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg p-6 shadow-xl focus:outline-none",
+              "fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg p-6 shadow-xl focus:outline-none ze-dialog-content",
               bgColor,
               textColor,
               "border",
@@ -189,7 +192,7 @@ export const FeedbackWidget = ({
       {toast && (
         <div
           className={clsx(
-            "fixed bottom-20 right-6 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium transition-all",
+            "fixed top-10 right-6 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium transition-all",
             toast.type === "success"
               ? isDark
                 ? "bg-green-800 text-green-100"

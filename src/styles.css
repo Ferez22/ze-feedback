@@ -9,6 +9,14 @@
     opacity: 1;
   }
 }
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -19,7 +27,33 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+}
 
-[data-state="open"] {
-  animation: fadeIn 200ms ease-out, slideIn 200ms ease-out;
+/* Overlay and content animations, scoped to our dialog classes to prevent layout flashes */
+.ze-dialog-overlay[data-state="open"] {
+  animation: fadeIn 200ms ease-out;
+}
+.ze-dialog-overlay[data-state="closed"] {
+  animation: fadeOut 150ms ease-in;
+}
+
+/* Ensure content has a stable centered transform at all times to avoid initial jump */
+.ze-dialog-content {
+  transform: translate(-50%, -50%) scale(1);
+  will-change: transform, opacity;
+}
+.ze-dialog-content[data-state="open"] {
+  animation: slideIn 200ms ease-out;
+}
+.ze-dialog-content[data-state="closed"] {
+  animation: slideOut 150ms ease-in;
 }
