@@ -14,6 +14,7 @@ export const FeedbackWidget = ({
   theme = "light",
   renderToast,
   buttonVariant = "standAlone",
+  buttonIcon,
 }: FeedbackWidgetProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -34,6 +35,7 @@ export const FeedbackWidget = ({
     : "bg-gray-900 hover:bg-gray-800";
   const buttonText = isDark ? "text-gray-900" : "text-white";
   const overlayBg = isDark ? "bg-black/70" : "bg-black/50";
+  const iconColor = isDark ? "text-gray-300" : "text-gray-700";
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -93,14 +95,31 @@ export const FeedbackWidget = ({
             className={clsx(
               buttonVariant === "standAlone"
                 ? "z-50 w-14 h-14 rounded-full shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2"
-                : "focus:outline-none",
+                : "focus:outline-none rounded-md border transition-colors",
+              // Base colors
               buttonVariant === "standAlone" && buttonBg,
-              "flex items-center justify-center hover:scale-110",
-              buttonVariant === "standAlone" && buttonText
+              buttonVariant === "standAlone" && buttonText,
+              buttonVariant === "simple" &&
+                (isDark
+                  ? "bg-white text-gray-900 border-transparent"
+                  : "bg-gray-900 text-white border-transparent"),
+              // Hover styles
+              buttonVariant === "standAlone"
+                ? "hover:scale-110"
+                : isDark
+                ? "hover:bg-gray-900 hover:text-white hover:border-gray-300"
+                : "hover:bg-white hover:text-gray-900 hover:border-gray-900",
+              "flex items-center justify-center p-[5px]"
             )}
             aria-label="Open feedback dialog"
           >
-            <MessageCircle aria-hidden className="w-6 h-6" />
+            {buttonIcon ?? (
+              <MessageCircle
+                aria-hidden
+                className={clsx("w-5 h-5")}
+                strokeWidth={1.5}
+              />
+            )}
           </button>
         </Dialog.Trigger>
 

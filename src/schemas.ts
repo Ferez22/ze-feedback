@@ -23,4 +23,6 @@ export interface FeedbackWidgetProps {
     message: string;
   }) => ReactNode;
   buttonVariant?: "standAlone" | "simple";
+  /** Optional custom icon for the trigger button (primarily for simple variant) */
+  buttonIcon?: ReactNode;
 }
