@@ -1,0 +1,16 @@
+src/
+tsconfig.json
+tsup.config.ts
+tailwind.config.js
+postcss.config.mjs
+node_modules/
+app/
+.next/
+*.log
+*.lock
+.env*
+eslint.config.*
+next.*
+next-env.d.ts
+*.md
+!README.md

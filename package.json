@@ -1,0 +1,43 @@
+{
+  "name": "@ze/ze-feedback",
+  "version": "0.1.0",
+  "description": "Lightweight, type-safe feedback widget",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
+    "clsx": "^2.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/react": "^19.2.2",
+    "eslint": "^9",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4",
+    "tsup": "^8.5.0",
+    "typescript": "^5"
+  },
+  "license": "MIT"
+}
