@@ -1,18 +1,12 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { StarRatingProps } from "../types";
 import clsx from "clsx";
-
-interface StarRatingProps {
-  rating: number | null;
-  onRatingChange: Dispatch<SetStateAction<number | null>>;
-  theme?: "light" | "dark";
-}
 
 export const StarRating = ({
   rating,
   onRatingChange,
   theme = "light",
 }: StarRatingProps) => {
-  const stars = [1, 2, 3, 4, 5];
+  const stars: Array<1 | 2 | 3 | 4 | 5> = [1, 2, 3, 4, 5];
   const starColor = theme === "dark" ? "text-yellow-400" : "text-yellow-500";
   const hoverColor =
     theme === "dark" ? "hover:text-yellow-300" : "hover:text-yellow-400";

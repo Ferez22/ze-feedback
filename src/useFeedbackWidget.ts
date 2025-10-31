@@ -1,16 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { feedbackPayloadSchema, type FeedbackPayload } from "./schemas";
+import type { UseFeedbackWidgetOptions, Rating } from "./types";
 import type { ZodTypeAny } from "zod";
-
-export interface UseFeedbackWidgetOptions {
-  apiUrl?: string;
-  userId?: string;
-  metadata?: Record<string, any>;
-  onSubmit?: (data: FeedbackPayload) => Promise<void> | void;
-  onSuccess?: () => void;
-  onError?: (err: Error) => void;
-  validateWith?: ZodTypeAny;
-}
 
 export function useFeedbackWidget(opts: UseFeedbackWidgetOptions = {}) {
   const {
@@ -24,20 +15,20 @@ export function useFeedbackWidget(opts: UseFeedbackWidgetOptions = {}) {
   } = opts;
 
   const [isOpen, setIsOpen] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [rating, setRating] = useState<number | null>(null);
+  const [message, setMessage] = useState("");
+  const [rating, setRating] = useState<Rating | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const payload: FeedbackPayload = useMemo(
     () => ({
-      feedback,
+      message,
+      apiUrl,
       rating: rating ?? undefined,
       userId,
       metadata,
-      createdAt: new Date().toISOString(),
     }),
-    [feedback, rating, userId, metadata]
+    [message, rating, userId, metadata, apiUrl]
   );
 
   const submit = useCallback(async () => {
@@ -70,7 +61,7 @@ export function useFeedbackWidget(opts: UseFeedbackWidgetOptions = {}) {
       }
       onSuccess?.();
       setIsOpen(false);
-      setFeedback("");
+      setMessage("");
       setRating(null);
     } catch (e) {
       const err =
@@ -93,8 +84,8 @@ export function useFeedbackWidget(opts: UseFeedbackWidgetOptions = {}) {
   return {
     isOpen,
     setIsOpen,
-    feedback,
-    setFeedback,
+    message,
+    setMessage,
     rating,
     setRating,
     isSubmitting,
