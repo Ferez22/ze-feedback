@@ -66,3 +66,24 @@ export interface UseFeedbackWidgetOptions {
   onError?: (err: Error) => void;
   validateWith?: ZodTypeAny;
 }
+
+export interface FeedbackItem extends FeedbackPayload {
+  id?: string;
+  createdAt?: string;
+}
+
+export interface ZeDashboardProps {
+  apiUrl: string;
+  theme?: Theme;
+  title?: string;
+}
+
+export interface ZeDashboardButtonProps {
+  routePath?: string;
+  theme?: Theme;
+  variant?: ButtonVariant;
+  icon?: ReactNode;
+  children?: ReactNode;
+  onClick?: () => void;
+  className?: string;
+}
