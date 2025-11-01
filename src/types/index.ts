@@ -76,6 +76,8 @@ export interface ZeDashboardProps {
   apiUrl: string;
   theme?: Theme;
   title?: string;
+  backRoute?: string;
+  onBack?: () => void;
 }
 
 export interface ZeDashboardButtonProps {

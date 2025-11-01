@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import type { ZeDashboardProps, FeedbackItem } from "./types";
 import { getThemeColors } from "./styles/theme";
 import { StarRating } from "./components";
+import { ArrowLeft } from "lucide-react";
 import clsx from "clsx";
 
 export const ZeDashboard = ({
   apiUrl,
   theme = "light",
   title = "Feedback Dashboard",
+  backRoute,
+  onBack,
 }: ZeDashboardProps) => {
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
