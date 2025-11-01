@@ -71,9 +71,37 @@ export const ZeDashboard = ({
         feedback.filter((f) => f.rating).length
       : 0;
 
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+      return;
+    }
+
+    if (backRoute) {
+      window.location.href = backRoute;
+    }
+  };
+
   return (
     <div className={clsx("min-h-screen p-6", colors.bg)}>
       <div className="max-w-7xl mx-auto">
+        {(backRoute || onBack) && (
+          <button
+            type="button"
+            onClick={handleBack}
+            className={clsx(
+              "mb-6 flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2",
+              theme === "dark"
+                ? "bg-gray-800 text-gray-100 hover:bg-gray-700 focus:ring-gray-500 border border-gray-700"
+                : "bg-white text-gray-900 hover:bg-gray-100 focus:ring-gray-500 border border-gray-300",
+              colors.text
+            )}
+            aria-label="Go back"
+          >
+            <ArrowLeft className="w-4 h-4" strokeWidth={2} />
+            Back
+          </button>
+        )}
         <div className="mb-8">
           <h1 className={clsx("text-3xl font-bold mb-2", colors.text)}>
             {title}
