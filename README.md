@@ -399,3 +399,9 @@ If you’re not sure where to start, open an issue describing what you want to i
 ## License
 
 MIT
+
+## Project governance
+
+- Maintained by: Fares
+- Major changes require maintainer approval
+- This project is open source, but the hosted SaaS may include proprietary services
