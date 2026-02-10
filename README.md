@@ -66,17 +66,11 @@ The styles must be imported from `ze-feedback/styles.css`.
 
 ---
 
-## Minimal backend required
+## Backend (required)
 
-At minimum, you need an endpoint that can receive feedback submissions from the widget:
+This package is UI + validation — you still need a small backend service to receive submissions (and optionally serve a list for the dashboard).
 
-- **POST** `/api/feedback`
-
-Optional (only if you use the dashboard):
-
-- **GET** `/api/feedback/list`
-
-Backend guide (placeholder): **[Minimal backend setup](./BACKEND.md)**
+See the backend docs here: **[`ze-backend/README.md`](./ze-backend/README.md)**
 
 ### Payload shape (sent to `apiUrl`)
 
